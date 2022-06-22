@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Faker\Factory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -16,14 +17,15 @@ class CompaniesTableSeeder extends Seeder
     {
         DB::table('companies')->truncate();
 
+        $faker = Factory::create();
         $companies = [];
 
         foreach (range(1, 10) as $index) {
             $companies[] = [
-                'name' => $name = 'Company ' . $index,
-                'address' => 'Address ' . $name,
-                'website' => 'Website ' . $name,
-                'email' => 'Email ' . $name,
+                'name' => $faker->company,
+                'address' => $faker->address,
+                'website' => $faker->domainName,
+                'email' => $faker->email,
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
