@@ -23,7 +23,11 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        Company::factory(10)->create();
-        Contact::factory(50)->create();
+        Company::factory(10)->create()->each(function (Company $company) {
+            $company->contact()->saveMany(
+                Contact::factory(rand(5, 10))->make()
+            );
+        });
+
     }
 }
