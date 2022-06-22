@@ -16,7 +16,7 @@ class Company extends Model
         'website',
     ];
 
-    public function contacts()
+    public function contact()
     {
         return $this->hasMany(Contact::class, 'company_id', 'id');
     }
