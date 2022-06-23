@@ -29,13 +29,7 @@ class ContactController extends Controller
     {
         return view('contacts.create', [
             'companies' => Company::orderBy('name')->pluck('name', 'id')->prepend('Select Companies', ''),
-        ]);
-    }
-
-    public function show($id)
-    {
-        return view('contacts.show', [
-            'contact' => Contact::find($id),
+            'contact' => new Contact(),
         ]);
     }
 
@@ -60,5 +54,45 @@ class ContactController extends Controller
         ]));
 
         return redirect()->route('contacts.index')->with('message', 'Contact has been added successfully.');
+    }
+
+    public function show($id)
+    {
+        return view('contacts.show', [
+            'contact' => Contact::findOrFail($id),
+        ]);
+    }
+
+    public function edit($id)
+    {
+        return view('contacts.edit', [
+            'contact' => Contact::findOrFail($id),
+            'companies' => Company::orderBy('name')->pluck('name', 'id')->prepend('Select Companies', ''),
+        ]);
+    }
+
+    public function update($id, Request $request)
+    {
+        $request->validate([
+            'first_name' => ['required', 'string'],
+            'last_name' => ['required', 'string'],
+            'email' => ['required', 'email'],
+            'phone' => ['nullable'],
+            'address' => ['required', 'string'],
+            'company_id' => ['required', 'exists:companies,id'],
+        ]);
+
+        Contact::findOrFail($id)
+            ->fill($request->only([
+                'first_name',
+                'last_name',
+                'phone',
+                'address',
+                'email',
+                'company_id',
+            ]))
+            ->save();
+
+        return redirect()->route('contacts.index')->with('message', 'Contact has been updated successfully.');
     }
 }
