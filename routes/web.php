@@ -7,13 +7,15 @@ Route::get('/', function () {
 });
 
 Route::get('/contacts', function () {
-    return '<h1>All Contacts</h1>';
+    return view('contacts.index');
 })->name('contacts.index');
 
-Route::get('/contacts/create', function() {
-   return '<h1>Add New Contact</h1>';
+Route::get('/contacts/create', function () {
+    return view('contacts.create');
 })->name('contacts.create');
 
-Route::get('/contacts/{id}', function($id) {
-    return \App\Models\Contact::find($id);
+Route::get('/contacts/{id}', function ($id) {
+    return view('contacts.show', [
+        'contact' => \App\Models\Contact::find($id),
+    ]);
 })->name('contacts.show');
