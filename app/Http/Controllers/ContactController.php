@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use App\Models\Contact;
 
 class ContactController extends Controller
@@ -10,6 +11,7 @@ class ContactController extends Controller
     {
         return view('contacts.index', [
             'contacts' => Contact::with('company')->orderBy('first_name')->paginate(10),
+            'companies' => Company::orderBy('name')->pluck('name', 'id'),
         ]);
     }
 

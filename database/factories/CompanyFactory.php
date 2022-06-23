@@ -12,10 +12,10 @@ class CompanyFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name(),
+            'name' => $this->faker->company(),
             'address' => $this->faker->address(),
             'website' => $this->faker->word(),
-            'email' => $this->faker->unique()->safeEmail(),
+            'email' => $this->faker->unique()->companyEmail(),
             'created_at' => now(),
             'updated_at' => now(),
         ];
