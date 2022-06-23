@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Scope;
 
 class ContactSearchScope extends SearchScope
 {
-    protected $searchColumn = [
+    protected $searchColumns = [
         'first_name',
         'last_name',
         'email',
