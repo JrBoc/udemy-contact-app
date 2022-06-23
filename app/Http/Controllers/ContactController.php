@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use App\Models\Contact;
+use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
@@ -15,7 +16,7 @@ class ContactController extends Controller
                     $query->where('company_id', $companyId);
                 }
             })
-            ->orderBy('first_name')
+            ->orderBy('id', 'desc')
             ->paginate(10);
 
         return view('contacts.index', [
@@ -26,7 +27,9 @@ class ContactController extends Controller
 
     public function create()
     {
-        return view('contacts.create');
+        return view('contacts.create', [
+            'companies' => Company::orderBy('name')->pluck('name', 'id')->prepend('Select Companies', ''),
+        ]);
     }
 
     public function show($id)
@@ -34,5 +37,28 @@ class ContactController extends Controller
         return view('contacts.show', [
             'contact' => Contact::find($id),
         ]);
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'first_name' => ['required', 'string'],
+            'last_name' => ['required', 'string'],
+            'email' => ['required', 'email'],
+            'phone' => ['nullable'],
+            'address' => ['required', 'string'],
+            'company_id' => ['required', 'exists:companies,id'],
+        ]);
+
+        Contact::create($request->only([
+            'first_name',
+            'last_name',
+            'phone',
+            'address',
+            'email',
+            'company_id',
+        ]));
+
+        return redirect()->route('contacts.index')->with('message', 'Contact has been added successfully.');
     }
 }
