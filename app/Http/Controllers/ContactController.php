@@ -9,9 +9,18 @@ class ContactController extends Controller
 {
     public function index()
     {
+        $contacts = Contact::with('company')
+            ->where(function ($query) {
+                if ($companyId = request('company_id')) {
+                    $query->where('company_id', $companyId);
+                }
+            })
+            ->orderBy('first_name')
+            ->paginate(10);
+
         return view('contacts.index', [
-            'contacts' => Contact::with('company')->orderBy('first_name')->paginate(10),
-            'companies' => Company::orderBy('name')->pluck('name', 'id'),
+            'contacts' => $contacts,
+            'companies' => Company::orderBy('name')->pluck('name', 'id')->prepend('All Companies', ''),
         ]);
     }
 
