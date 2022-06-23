@@ -8,7 +8,9 @@ class ContactController extends Controller
 {
     public function index()
     {
-        return view('contacts.index');
+        return view('contacts.index', [
+            'contacts' => Contact::with('company')->orderBy('first_name')->get(),
+        ]);
     }
 
     public function create()
