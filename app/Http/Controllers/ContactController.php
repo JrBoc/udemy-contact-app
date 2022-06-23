@@ -12,7 +12,6 @@ class ContactController extends Controller
     {
         $contacts = Contact::with('company')
             ->latestFirst()
-            ->filter()
             ->paginate(10);
 
         return view('contacts.index', [

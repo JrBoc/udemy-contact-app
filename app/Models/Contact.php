@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\FilterScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,28 +17,13 @@ class Contact extends Model
         return $this->belongsTo(Company::class, 'company_id', 'id');
     }
 
-    /**
-     * No need to todo in real projects
-     *
-     * @param $query
-     *
-     * @return mixed
-     */
     public function scopeLatestFirst($query)
     {
         return $query->orderBy('id', 'desc');
     }
 
-    public function scopeFilter($query)
+    protected static function booted()
     {
-        if ($companyId = request('company_id')) {
-            $query->where('company_id', $companyId);
-        }
-
-        if ($search = request('search')) {
-            $query->where('first_name', 'LIKE', "%{$search}%");
-        }
-
-        return $query;
+        static::addGlobalScope(new FilterScope());
     }
 }
