@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Settings\AccountController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -18,4 +19,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/contacts/{id}', [ContactController::class, 'update'])->name('contacts.update');
     Route::delete('/contacts/{id}', [ContactController::class, 'destroy'])->name('contacts.destroy');
     Route::get('/contacts/{id}/edit', [ContactController::class, 'edit'])->name('contacts.edit');
+
+    Route::group(['middleware' => 'password.confirm'], function () {
+        Route::get('/settings/account', [AccountController::class, 'index'])->name('settings.account.index');
+    });
 });
