@@ -14,15 +14,15 @@ class ContactController extends Controller
 
         return view('contacts.index', [
             'contacts' => $user->contacts()->with('company')->latestFirst()->paginate(10),
-            'companies' => $user->companies()->orderBy('name')->pluck('name', 'id')->prepend('All Companies', ''),
+            'companies' => Company::userCompanies(),
         ]);
     }
 
     public function create()
     {
         return view('contacts.create', [
-            'companies' => auth()->user()->companies()->orderBy('name')->pluck('name', 'id')->prepend('Select Companies', ''),
             'contact' => new Contact(),
+            'companies' => Company::userCompanies('Select Company'),
         ]);
     }
 
@@ -62,7 +62,7 @@ class ContactController extends Controller
     {
         return view('contacts.edit', [
             'contact' => $contact,
-            'companies' => Company::orderBy('name')->pluck('name', 'id')->prepend('Select Companies', ''),
+            'companies' => Company::userCompanies('Select Company'),
         ]);
     }
 

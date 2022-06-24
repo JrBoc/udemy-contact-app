@@ -25,4 +25,9 @@ class Company extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public static function userCompanies($prependText = 'All Companies')
+    {
+        return self::where('user_id', auth()->id())->orderBy('name')->pluck('name', 'id')->prepend($prependText, '');
+    }
 }
