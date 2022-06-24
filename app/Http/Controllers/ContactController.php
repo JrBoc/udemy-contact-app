@@ -10,20 +10,18 @@ class ContactController extends Controller
 {
     public function index()
     {
-        $contacts = Contact::with('company')
-            ->latestFirst()
-            ->paginate(10);
+        $user = auth()->user();
 
         return view('contacts.index', [
-            'contacts' => $contacts,
-            'companies' => Company::orderBy('name')->pluck('name', 'id')->prepend('All Companies', ''),
+            'contacts' => $user->contacts()->with('company')->latestFirst()->paginate(10),
+            'companies' => $user->companies()->orderBy('name')->pluck('name', 'id')->prepend('All Companies', ''),
         ]);
     }
 
     public function create()
     {
         return view('contacts.create', [
-            'companies' => Company::orderBy('name')->pluck('name', 'id')->prepend('Select Companies', ''),
+            'companies' => auth()->user()->companies()->orderBy('name')->pluck('name', 'id')->prepend('Select Companies', ''),
             'contact' => new Contact(),
         ]);
     }
@@ -39,14 +37,16 @@ class ContactController extends Controller
             'company_id' => ['required', 'exists:companies,id'],
         ]);
 
-        Contact::create($request->only([
-            'first_name',
-            'last_name',
-            'phone',
-            'address',
-            'email',
-            'company_id',
-        ]));
+        $request->user()
+            ->contacts()
+            ->create($request->only([
+                'first_name',
+                'last_name',
+                'phone',
+                'address',
+                'email',
+                'company_id',
+            ]));
 
         return redirect()->route('contacts.index')->with('message', 'Contact has been added successfully.');
     }
