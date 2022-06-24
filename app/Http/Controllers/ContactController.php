@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ContactRequest;
 use App\Models\Company;
 use App\Models\Contact;
-use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
@@ -21,22 +21,13 @@ class ContactController extends Controller
     public function create()
     {
         return view('contacts.create', [
-            'contact' => new Contact(),
+            'contact' => null,
             'companies' => Company::userCompanies('Select Company'),
         ]);
     }
 
-    public function store(Request $request)
+    public function store(ContactRequest $request)
     {
-        $request->validate([
-            'first_name' => ['required', 'string'],
-            'last_name' => ['required', 'string'],
-            'email' => ['required', 'email'],
-            'phone' => ['nullable'],
-            'address' => ['required', 'string'],
-            'company_id' => ['required', 'exists:companies,id'],
-        ]);
-
         $request->user()
             ->contacts()
             ->create($request->only([
@@ -66,7 +57,7 @@ class ContactController extends Controller
         ]);
     }
 
-    public function update(Contact $contact, Request $request)
+    public function update(Contact $contact, ContactRequest $request)
     {
         $request->validate([
             'first_name' => ['required', 'string'],
