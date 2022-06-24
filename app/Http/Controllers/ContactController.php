@@ -51,22 +51,22 @@ class ContactController extends Controller
         return redirect()->route('contacts.index')->with('message', 'Contact has been added successfully.');
     }
 
-    public function show($id)
+    public function show(Contact $contact)
     {
         return view('contacts.show', [
-            'contact' => Contact::findOrFail($id),
+            'contact' => $contact,
         ]);
     }
 
-    public function edit($id)
+    public function edit(Contact $contact)
     {
         return view('contacts.edit', [
-            'contact' => Contact::findOrFail($id),
+            'contact' => $contact,
             'companies' => Company::orderBy('name')->pluck('name', 'id')->prepend('Select Companies', ''),
         ]);
     }
 
-    public function update($id, Request $request)
+    public function update(Contact $contact, Request $request)
     {
         $request->validate([
             'first_name' => ['required', 'string'],
@@ -77,7 +77,7 @@ class ContactController extends Controller
             'company_id' => ['required', 'exists:companies,id'],
         ]);
 
-        Contact::findOrFail($id)
+        $contact
             ->fill($request->only([
                 'first_name',
                 'last_name',
@@ -91,9 +91,9 @@ class ContactController extends Controller
         return redirect()->route('contacts.index')->with('message', 'Contact has been updated successfully.');
     }
 
-    public function destroy($id)
+    public function destroy(Contact $contact)
     {
-        Contact::findOrFail($id)->delete();
+        $contact->delete();
 
         return back()->with('message', 'Contact has been updated deleted.');
     }
