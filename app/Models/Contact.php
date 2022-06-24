@@ -20,6 +20,11 @@ class Contact extends Model
         return $this->belongsTo(Company::class, 'company_id', 'id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
     public function scopeLatestFirst($query)
     {
         return $query->orderBy('id', 'desc');

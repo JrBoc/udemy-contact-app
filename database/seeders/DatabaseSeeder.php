@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Company;
 use App\Models\Contact;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -16,18 +17,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-
-        Company::factory(10)->create()->each(function (Company $company) {
-            $company->contact()->saveMany(
-                Contact::factory(rand(5, 10))->make()
-            );
+        User::factory()->count(5)->create()->each(function ($user) {
+            Company::factory()
+                ->has(
+                    Contact::factory()->count(5)->state(function ($attributes, Company $company) {
+                        return ['user_id' => $company->user_id];
+                    })
+                )
+                ->count(10)->create([
+                    'user_id' => $user->id,
+                ]);
         });
-
     }
 }
