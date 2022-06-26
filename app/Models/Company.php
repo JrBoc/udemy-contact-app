@@ -14,7 +14,7 @@ class Company extends Model
 
     public function contact()
     {
-        return $this->hasMany(Contact::class, 'company_id', 'id');
+        return $this->hasMany(Contact::class, 'company_id', 'id')->withoutGlobalScopes([CompanySearchScope::class]);
     }
 
     public function user()
@@ -24,7 +24,7 @@ class Company extends Model
 
     public static function userCompanies($prependText = 'All Companies')
     {
-        return self::where('user_id', auth()->id())->orderBy('name')->pluck('name', 'id')->prepend($prependText, '');
+        return self::withoutGlobalScope()->where('user_id', auth()->id())->orderBy('name')->pluck('name', 'id')->prepend($prependText, '');
     }
 
     protected static function booted()

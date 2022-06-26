@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileRequest extends FormRequest
 {
@@ -31,9 +32,11 @@ class ProfileRequest extends FormRequest
             'bio',
         ]);
 
+        $user = user();
+
         if ($this->has('profile_picture')) {
             $profilePicture = $this->file('profile_picture');
-            $profilePicture->move(public_path('upload'), $fileName = user()->id . '.' . $profilePicture->extension());
+            $fileName = $profilePicture->storePubliclyAs('uploads/profiles', "profile-picture-{$user->id}." . $profilePicture->extension());
 
             $data += [
                 'profile_picture' => $fileName,
