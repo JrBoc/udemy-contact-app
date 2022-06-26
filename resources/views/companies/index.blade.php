@@ -18,9 +18,7 @@
                         </div>
                         <div class="card-body">
                             @include('companies._filter')
-                            @if($message = session('message'))
-                                <div class="alert alert-success">{{ $message }}</div>
-                            @endif
+                            @include('layouts._message')
                             <table class="table table-striped table-hover">
                                 <thead>
                                 <tr>
@@ -48,10 +46,7 @@
                                             </td>
                                         </tr>
                                     @endforeach
-                                    <form action="#" id="form-delete" method="post" style="display: none">
-                                        @csrf
-                                        @method('delete')
-                                    </form>
+                                    @include('layouts._delete-form')
                                 @endif
                                 </tbody>
                             </table>

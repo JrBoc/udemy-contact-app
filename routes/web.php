@@ -3,6 +3,7 @@
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Settings\AccountController;
+use App\Http\Controllers\Settings\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -20,5 +21,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['middleware' => 'password.confirm'], function () {
         Route::get('/settings/account', [AccountController::class, 'index'])->name('settings.account.index');
+
+        Route::get('/settings/profile', [ProfileController::class, 'edit'])->name('settings.profile.edit');
+        Route::put('/settings/profile', [ProfileController::class, 'update'])->name('settings.profile.update');
     });
 });
