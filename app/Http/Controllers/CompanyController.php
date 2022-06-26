@@ -10,7 +10,11 @@ class CompanyController extends Controller
     public function index()
     {
         return view('companies.index', [
-            'companies' => user()->companies()->latest('id')->paginate(10),
+            'companies' => user()->companies()
+                ->select(['id', 'website', 'name', 'email'])
+                ->withCount(['contact'])
+                ->latest('id')
+                ->paginate(10),
         ]);
     }
 

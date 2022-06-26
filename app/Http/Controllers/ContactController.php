@@ -11,7 +11,7 @@ class ContactController extends Controller
     public function index()
     {
         return view('contacts.index', [
-            'contacts' => user()->contacts()->latestFirst()->paginate(10),
+            'contacts' => user()->contacts()->with('company')->latest('id')->paginate(10),
             'companies' => Company::userCompanies(),
         ]);
     }

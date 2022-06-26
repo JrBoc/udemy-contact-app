@@ -28,6 +28,7 @@
                                     <th scope="col">Name</th>
                                     <th scope="col">Website</th>
                                     <th scope="col">Email</th>
+                                    <th scope="col">Contacts</th>
                                     <th scope="col">Actions</th>
                                 </tr>
                                 </thead>
@@ -39,6 +40,7 @@
                                             <td>{{ $company->name }}</td>
                                             <td>{{ $company->website }}</td>
                                             <td>{{ $company->email }}</td>
+                                            <td>{{ $company->contact_count }}</td>
                                             <td style="width: 150px">
                                                 <a href="{{ route('companies.show', $company->id) }}" class="btn btn-sm btn-circle btn-outline-info" title="Show"><i class="fa fa-eye"></i></a>
                                                 <a href="{{ route('companies.edit', $company->id) }}" class="btn btn-sm btn-circle btn-outline-secondary" title="Edit"><i class="fa fa-edit"></i></a>

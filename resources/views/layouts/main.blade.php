@@ -28,8 +28,8 @@
         <div class="collapse navbar-collapse" id="navbar-toggler">
             @auth
                 <ul class="navbar-nav">
-                    <li class="nav-item {{ request()->routeIs('companies.index') ? 'active' : '' }}"><a href="{{ route('companies.index') }}" class="nav-link">Companies</a></li>
-                    <li class="nav-item {{ request()->routeIs('contacts.index') ? 'active' : '' }}"><a href="{{ route('contacts.index') }}" class="nav-link">Contacts</a></li>
+                    <li class="nav-item {{ request()->routeIs('companies.*') ? 'active' : '' }}"><a href="{{ route('companies.index') }}" class="nav-link">Companies</a></li>
+                    <li class="nav-item {{ request()->routeIs('contacts.*') ? 'active' : '' }}"><a href="{{ route('contacts.index') }}" class="nav-link">Contacts</a></li>
                 </ul>
             @endauth
 
