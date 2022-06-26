@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Contact App | Create Contact')
+@section('title', 'Contact App | Create Company')
 
 @section('content')
     <main class="py-5">
@@ -9,12 +9,12 @@
                 <div class="col-md-8">
                     <div class="card">
                         <div class="card-header card-title">
-                            <strong>Create Contact</strong>
+                            <strong>Create Company</strong>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('contacts.store') }}" method="post">
+                            <form action="{{ route('companies.store') }}" method="post">
                                 @csrf
-                                @include('contacts._form')
+                                @include('companies._form')
                             </form>
                         </div>
                     </div>

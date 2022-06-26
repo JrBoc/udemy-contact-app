@@ -30,7 +30,6 @@ class SearchScope implements Scope
                     });
                 } else {
                     $builder->$method($column, 'LIKE', "%{$search}%");
-
                 }
             }
         }

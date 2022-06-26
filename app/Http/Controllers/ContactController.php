@@ -10,10 +10,8 @@ class ContactController extends Controller
 {
     public function index()
     {
-        $user = auth()->user();
-
         return view('contacts.index', [
-            'contacts' => $user->contacts()->with('company')->latestFirst()->paginate(10),
+            'contacts' => user()->contacts()->latestFirst()->paginate(10),
             'companies' => Company::userCompanies(),
         ]);
     }
@@ -59,15 +57,6 @@ class ContactController extends Controller
 
     public function update(Contact $contact, ContactRequest $request)
     {
-        $request->validate([
-            'first_name' => ['required', 'string'],
-            'last_name' => ['required', 'string'],
-            'email' => ['required', 'email'],
-            'phone' => ['nullable'],
-            'address' => ['required', 'string'],
-            'company_id' => ['required', 'exists:companies,id'],
-        ]);
-
         $contact
             ->fill($request->only([
                 'first_name',
@@ -86,6 +75,6 @@ class ContactController extends Controller
     {
         $contact->delete();
 
-        return back()->with('message', 'Contact has been updated deleted.');
+        return redirect()->route('contacts.index')->with('message', 'Contact has been updated deleted.');
     }
 }

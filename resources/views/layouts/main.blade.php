@@ -28,8 +28,8 @@
         <div class="collapse navbar-collapse" id="navbar-toggler">
             @auth
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a href="" class="nav-link">Companies</a></li>
-                    <li class="nav-item active"><a href="{{ route('contacts.index') }}" class="nav-link">Contacts</a></li>
+                    <li class="nav-item {{ request()->routeIs('companies.index') ? 'active' : '' }}"><a href="{{ route('companies.index') }}" class="nav-link">Companies</a></li>
+                    <li class="nav-item {{ request()->routeIs('contacts.index') ? 'active' : '' }}"><a href="{{ route('contacts.index') }}" class="nav-link">Contacts</a></li>
                 </ul>
             @endauth
 
@@ -40,13 +40,12 @@
                 @else
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ auth()->user()->name }}
+                            {{ user()->name }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <a class="dropdown-item" href="profile.html">Settings</a>
                             <a class="dropdown-item" href="{{ route('logout') }}"
-                               onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 {{ __('Logout') }}
                             </a>
 

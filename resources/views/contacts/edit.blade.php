@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Contact App | Add new Contact')
+@section('title', 'Contact App | Create Contact')
 
 @section('content')
     <main class="py-5">

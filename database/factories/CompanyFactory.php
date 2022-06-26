@@ -16,7 +16,7 @@ class CompanyFactory extends Factory
             'user_id' => User::factory(),
             'name' => $this->faker->company(),
             'address' => $this->faker->address(),
-            'website' => $this->faker->word(),
+            'website' => $this->faker->domainName(),
             'email' => $this->faker->unique()->companyEmail(),
             'created_at' => now(),
             'updated_at' => now(),

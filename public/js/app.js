@@ -20,9 +20,6 @@ document.querySelectorAll('.btn-delete')?.forEach((button) => {
 })
 
 document.getElementById('btn-clear')?.addEventListener('click', () => {
-    // document.getElementById('search').value = ''
-    // document.getElementById('filter_company_id').selectedIndex = 0
-
     window.location.href = window.location.href.split('?')[0]
 })
 
